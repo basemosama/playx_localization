@@ -5,6 +5,8 @@ import 'package:playx_localization/src/model/x_locale.dart';
 /// used to configure out app locales by providing the app with the supported locales and localization settings.
 /// Create a class that extends the [XLocaleConfig] class to implement your own locales.
 abstract class XLocaleConfig {
+
+  //App supported locales.
   List<XLocale> get supportedLocales;
 
   /// First Locale that the app starts with if there is not any saved locale.

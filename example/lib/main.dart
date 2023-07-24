@@ -11,7 +11,6 @@ Future<void> main() async {
 
   runApp(PlayxLocalizationBuilder(
     builder: (XLocale xLocale) {
-      print('updated app builder : locale :${xLocale.name}');
       return const MyApp();
     },
   ));
@@ -20,17 +19,13 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
       supportedLocales: PlayxLocalization.supportedLocales,
       localizationsDelegates: PlayxLocalization.localizationDelegates,
       locale: PlayxLocalization.currentLocale,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: const MyHomePage(),
     );
   }
@@ -51,7 +46,7 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppTrans.chooseLanguageTitle.tr,
+                AppTrans.changeLanguageTitle.tr,
                 style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(
@@ -66,7 +61,7 @@ class MyHomePage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            AppTrans.chooseLanguageTitle.tr,
+                            AppTrans.changeLanguageTitle.tr,
                             style: const TextStyle(fontSize: 20),
                           ),
                           ...PlayxLocalization.supportedXLocales
@@ -95,12 +90,14 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:
+      FloatingActionButton.extended(
         onPressed: () {
           PlayxLocalization.updateByIndex(
               PlayxLocalization.isCurrentLocaleArabic() ? 0 : 1);
         },
-        child: const Icon(Icons.update),
+        label: Text('change_language_title'.tr),
+        icon: const Icon(Icons.update),
       ),
     );
   }

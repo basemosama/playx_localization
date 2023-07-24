@@ -5,7 +5,7 @@ abstract class  AppTrans {
 
   static const appName = 'app_name';
   static const chooseLanguage = 'choose_language';
-  static const chooseLanguageTitle = 'choose_language_title';
+  static const changeLanguageTitle = 'change_language_title';
   static const title = 'title';
 
 }

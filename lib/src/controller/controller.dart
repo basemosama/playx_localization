@@ -208,7 +208,7 @@ class XLocaleController extends GetxController {
   }
 
   ///Reset saved locales.
-  Future<void> resetSavedLocale() async {
+  Future<void> deleteSavedLocale() async {
     return Prefs.remove(_lastKnownIndexKey);
   }
 

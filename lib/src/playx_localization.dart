@@ -63,7 +63,7 @@ abstract class PlayxLocalization {
   ) =>
       _controller.updateById(id);
 
-  /// update the locale to by language code and country code if available.
+  /// update the locale by language code and country code if available.
   static Future<bool> updateByLanguageCode(
           {required String languageCode, String? countryCode}) =>
       _controller.updateByLanguageCode(
@@ -85,8 +85,8 @@ abstract class PlayxLocalization {
   ///Check if current locale is english.
   static bool isCurrentLocaleEnglish() => _controller.isCurrentLocaleEnglish();
 
-  ///Reset saved locale.
-  static Future<void> resetSavedLocale() => _controller.resetSavedLocale();
+  ///delete saved locale from device storage.
+  static Future<void> deleteSavedLocale() => _controller.deleteSavedLocale();
 
   //delegates to be used in material app.
   static List<LocalizationsDelegate> get localizationDelegates => _controller.delegates;
