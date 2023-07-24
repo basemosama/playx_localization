@@ -1,0 +1,27 @@
+name: playx_localization_example
+description: An Example project for playx_localization package.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  playx_localization:
+    path: ../
+  easy_localization: ^3.0.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.2
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/translations/
