@@ -50,13 +50,13 @@ flutter:
 
 ```
 
-### Loading translations from other resources[](https://pub.dev/packages/easy_localization#-loading-translations-from-other-resources)
+### Loading translations from other resources
 
 You can use JSON,CSV,HTTP,XML,Yaml files, etc.
 
 See  [Easy Localization Loader](https://github.com/aissat/easy_localization_loader)  for more info.
 
-### ⚠️ Note on  **iOS**[](https://pub.dev/packages/easy_localization#-note-on-ios)
+### ⚠️ Note on  **iOS**
 
 For translation to work on  **iOS**  you need to add supported locales to  `ios/Runner/Info.plist`  as described  [here](https://flutter.dev/docs/development/accessibility-and-localization/internationalization#specifying-supportedlocales).
 
@@ -207,7 +207,7 @@ Example:
 ``` json
 {
    "msg":"{} are written in the {} language",
-   "msg_named":"Easy localization is written in the {lang} language",
+   "msg_named":"Playx localization is written in the {lang} language",
    "msg_mixed":"{} are written in the {lang} language",
    "gender":{
       "male":"Hi man ;) {}",
@@ -219,13 +219,13 @@ Example:
 
 ```dart
 // args
-Text('msg').tr(args: ['Easy localization', 'Dart']),
+Text('msg').tr(args: ['Playx localization', 'Dart']),
 
 // namedArgs
 Text('msg_named').tr(namedArgs: {'lang': 'Dart'}),
 
 // args and namedArgs
-Text('msg_mixed').tr(args: ['Easy localization'], namedArgs: {'lang': 'Dart'}),
+Text('msg_mixed').tr(args: ['Playx localization'], namedArgs: {'lang': 'Dart'}),
 
 // gender
 Text('gender').tr(gender: _gender ? "female" : "male"),
@@ -311,18 +311,16 @@ If there's a translation key that will always have the same concrete text as ano
 Example:
 ```json
 {
-  ...
   "example": {
     "hello": "Hello",
     "world": "World!",
     "helloWorld": "@:example.hello @:example.world"
   }
-  ...
 }
 ```
 
 ```dart
-print('example.helloWorld'.tr()); //Output: Hello World!
+print('example.helloWorld'.tr); //Output: Hello World!
 ```
 
 You can also do nested anonymous and named arguments inside the linked messages.
@@ -331,14 +329,12 @@ Example:
 
 ```json
 {
-  ...
   "date": "{currentDate}.",
   "dateLogging": "INFO: the date today is @:date"
-  ...
 }
 ```
 ```dart
-print('dateLogging'.tr(namedArguments: {'currentDate': DateTime.now().toIso8601String()})); //Output: INFO: the date today is 2020-11-27T16:40:42.657.
+print(tr('dateLogging', namedArguments: {'currentDate': DateTime.now().toIso8601String()})); //Output: INFO: the date today is 2020-11-27T16:40:42.657.
 ```
 
 #### Formatting linked translations:
@@ -356,19 +352,17 @@ Example:
 
 ```json
 {
-  ...
   "example": {
     "fullName": "Full Name",
     "emptyNameError": "Please fill in your @.lower:example.fullName"
   }
-  ...
 }
 ```
 
 Output:
 
 ```dart
-print('example.emptyNameError'.tr()); //Output: Please fill in your full name
+print('example.emptyNameError'.tr); //Output: Please fill in your full name
 ```
 
 ### 🔥 Get device locale `deviceLocale`
@@ -419,6 +413,31 @@ RaisedButton(
 
 
 
+### 🔥 Extensions & utilities
+
+The package include other extensions and utitlies that can be helpful for development.
+
+For Example:
+
+#### Convert Date to formated and localized String using:
+
+```dart
+  final dateText = DateTime.now().toFormattedDate(
+      format: 'yyyy-MM-dd',
+      locale: PlayxLocalization.currentLocale.toStringWithSeparator());
+
+  print('Curent date: $dateText');
+```
+
+#### There is also other extensions on nubmer 
+| Method           | Description                                                |
+| -----------      | :--------------------------------------------------------  |
+| roundToPrecision     | Extension function to round number to certain number.   |
+| toFormattedCurrencyNumber   | Extension function to format number to currency number.     | 
+| toFormattedNumber    | Extension function to format number to  String.           |
+
+
+
 
 ## Documentation && References
 
@@ -438,5 +457,3 @@ RaisedButton(
 [playx_version_update](https://pub.dev/packages/playx_version_update) : Easily show material update dialog in Android or Cupertino dialog in IOS with support for Google play in app updates.
 
 [playx_network](https://pub.dev/packages/playx_network) :  Wrapper around Dio that can perform api request with better error handling and easily get the result of any api request.
-
-x 
