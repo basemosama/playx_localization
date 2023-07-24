@@ -12,9 +12,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  easy_localization: ^3.0.2
+  flutter_localizations:
+    sdk: flutter
   playx_core: ^0.1.2
   intl: ^0.18.0
+  easy_localization: ^3.0.2
 
 dev_dependencies:
   flutter_test:

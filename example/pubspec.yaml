@@ -12,7 +12,6 @@ dependencies:
   cupertino_icons: ^1.0.5
   playx_localization:
     path: ../
-  easy_localization: ^3.0.1
 
 
 dev_dependencies:

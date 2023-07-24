@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:playx_localization/src/model/x_locale.dart';
+
+import '../../playx_localization.dart';
 
 /// Locale config :
 /// used to configure out app locales by providing the app with the supported locales and localization settings.

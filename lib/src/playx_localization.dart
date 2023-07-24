@@ -1,3 +1,5 @@
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:playx_core/playx_core.dart';
 import 'package:playx_localization/src/config/x_locale_config.dart';
@@ -19,7 +21,8 @@ abstract class PlayxLocalization {
     required XLocaleConfig config,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
-    await EasyLocalization.ensureInitialized();
+    EasyLocalization.logger.name = 'Playx_localization';
+    EasyLocalization.logger(' Localization initialized');
     final controller = XLocaleController();
     Get
       ..put<XLocaleConfig>(config)

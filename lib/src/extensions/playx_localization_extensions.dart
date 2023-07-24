@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:playx_localization/src/easy_localization/public.dart' as ez;
 
 /// Strings extension method for access to [tr] and [plural()]
 /// Example :
@@ -18,7 +18,6 @@ extension PlayxLocalizationStringExtensions on String {
   String  plural(
     num value, {
     List<String>? args,
-    BuildContext? context,
     Map<String, String>? namedArgs,
     String? name,
     NumberFormat? format,
@@ -26,10 +25,75 @@ extension PlayxLocalizationStringExtensions on String {
       ez.plural(
         this,
         value,
-        context: context,
         args: args,
         namedArgs: namedArgs,
         name: name,
         format: format,
       );
 }
+
+
+/// Text widget extension method for access to [tr()] and [plural()]
+/// Example :
+/// ```dart
+/// Text('title').tr()
+/// Text('day').plural(21)
+/// ```
+extension TextTranslateExtension on Text {
+  /// {@macro tr}
+  Text tr(
+      {List<String>? args,
+        Map<String, String>? namedArgs,
+        String? gender}) =>
+      Text(
+          ez.tr(
+            data ?? '',
+            args: args,
+            namedArgs: namedArgs,
+            gender: gender,
+          ),
+          key: key,
+          style: style,
+          strutStyle: strutStyle,
+          textAlign: textAlign,
+          textDirection: textDirection,
+          locale: locale,
+          softWrap: softWrap,
+          overflow: overflow,
+          textScaleFactor: textScaleFactor,
+          maxLines: maxLines,
+          semanticsLabel: semanticsLabel,
+          textWidthBasis: textWidthBasis);
+
+  /// {@macro plural}
+  Text plural(
+      num value, {
+        List<String>? args,
+        Map<String, String>? namedArgs,
+        String? name,
+        NumberFormat? format,
+      }) =>
+      Text(
+          ez.plural(
+            data ?? '',
+            value,
+            args: args,
+            namedArgs: namedArgs,
+            name: name,
+            format: format,
+          ),
+          key: key,
+          style: style,
+          strutStyle: strutStyle,
+          textAlign: textAlign,
+          textDirection: textDirection,
+          locale: locale,
+          softWrap: softWrap,
+          overflow: overflow,
+          textScaleFactor: textScaleFactor,
+          maxLines: maxLines,
+          semanticsLabel: semanticsLabel,
+          textWidthBasis: textWidthBasis);
+}
+
+
