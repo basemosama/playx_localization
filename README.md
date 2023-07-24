@@ -311,13 +311,11 @@ If there's a translation key that will always have the same concrete text as ano
 Example:
 ```json
 {
-  ...
   "example": {
     "hello": "Hello",
     "world": "World!",
     "helloWorld": "@:example.hello @:example.world"
   }
-  ...
 }
 ```
 
@@ -331,14 +329,12 @@ Example:
 
 ```json
 {
-  ...
   "date": "{currentDate}.",
   "dateLogging": "INFO: the date today is @:date"
-  ...
 }
 ```
 ```dart
-print('dateLogging'.tr(namedArguments: {'currentDate': DateTime.now().toIso8601String()})); //Output: INFO: the date today is 2020-11-27T16:40:42.657.
+print(tr('dateLogging', namedArguments: {'currentDate': DateTime.now().toIso8601String()})); //Output: INFO: the date today is 2020-11-27T16:40:42.657.
 ```
 
 #### Formatting linked translations:
@@ -416,6 +412,31 @@ RaisedButton(
 | isCurrentLocaleArabic| Check if current locale is arabic.                         |
 | isCurrentLocaleEnglish| Check if current locale is english.                        |
 | deleteSavedLocale| Deletes saved locale from device storage.                         |
+
+
+
+### 🔥 Extensions & utilities
+
+The package include other extensions and utitlies that can be helpful for development.
+
+For Example:
+
+#### Convert Date to formated and localized String using:
+
+```dart
+  final dateText = DateTime.now().toFormattedDate(
+      format: 'yyyy-MM-dd',
+      locale: PlayxLocalization.currentLocale.toStringWithSeparator());
+
+  print('Curent date: $dateText');
+```
+
+#### There is also other extensions on nubmer 
+| Method           | Description                                                |
+| -----------      | :--------------------------------------------------------  |
+| roundToPrecision     | Extension function to round number to certain number.   |
+| toFormattedCurrencyNumber   | Extension function to format number to currency number.     | 
+| toFormattedNumber    | Extension function to format number to  String.           |
 
 
 
