@@ -457,5 +457,3 @@ For Example:
 [playx_version_update](https://pub.dev/packages/playx_version_update) : Easily show material update dialog in Android or Cupertino dialog in IOS with support for Google play in app updates.
 
 [playx_network](https://pub.dev/packages/playx_network) :  Wrapper around Dio that can perform api request with better error handling and easily get the result of any api request.
-
-x 
