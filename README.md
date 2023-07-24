@@ -50,13 +50,13 @@ flutter:
 
 ```
 
-### Loading translations from other resources[](https://pub.dev/packages/easy_localization#-loading-translations-from-other-resources)
+### Loading translations from other resources
 
 You can use JSON,CSV,HTTP,XML,Yaml files, etc.
 
 See  [Easy Localization Loader](https://github.com/aissat/easy_localization_loader)  for more info.
 
-### ⚠️ Note on  **iOS**[](https://pub.dev/packages/easy_localization#-note-on-ios)
+### ⚠️ Note on  **iOS**
 
 For translation to work on  **iOS**  you need to add supported locales to  `ios/Runner/Info.plist`  as described  [here](https://flutter.dev/docs/development/accessibility-and-localization/internationalization#specifying-supportedlocales).
 
@@ -207,7 +207,7 @@ Example:
 ``` json
 {
    "msg":"{} are written in the {} language",
-   "msg_named":"Easy localization is written in the {lang} language",
+   "msg_named":"Playx localization is written in the {lang} language",
    "msg_mixed":"{} are written in the {lang} language",
    "gender":{
       "male":"Hi man ;) {}",
@@ -219,13 +219,13 @@ Example:
 
 ```dart
 // args
-Text('msg').tr(args: ['Easy localization', 'Dart']),
+Text('msg').tr(args: ['Playx localization', 'Dart']),
 
 // namedArgs
 Text('msg_named').tr(namedArgs: {'lang': 'Dart'}),
 
 // args and namedArgs
-Text('msg_mixed').tr(args: ['Easy localization'], namedArgs: {'lang': 'Dart'}),
+Text('msg_mixed').tr(args: ['Playx localization'], namedArgs: {'lang': 'Dart'}),
 
 // gender
 Text('gender').tr(gender: _gender ? "female" : "male"),
@@ -320,7 +320,7 @@ Example:
 ```
 
 ```dart
-print('example.helloWorld'.tr()); //Output: Hello World!
+print('example.helloWorld'.tr); //Output: Hello World!
 ```
 
 You can also do nested anonymous and named arguments inside the linked messages.
@@ -352,19 +352,17 @@ Example:
 
 ```json
 {
-  ...
   "example": {
     "fullName": "Full Name",
     "emptyNameError": "Please fill in your @.lower:example.fullName"
   }
-  ...
 }
 ```
 
 Output:
 
 ```dart
-print('example.emptyNameError'.tr()); //Output: Please fill in your full name
+print('example.emptyNameError'.tr); //Output: Please fill in your full name
 ```
 
 ### 🔥 Get device locale `deviceLocale`
