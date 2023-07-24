@@ -1,15 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:playx_localization/src/model/x_locale.dart';
 
+/// Locale config :
+/// used to configure out app locales by providing the app with the supported locales and localization settings.
+/// Create a class that extends the [XLocaleConfig] class to implement your own locales.
 abstract class XLocaleConfig {
   List<XLocale> get supportedLocales;
 
-  /// Overrides device locale.
+  /// First Locale that the app starts with if there is not any saved locale.
+  ///If equals null then it uses device locale.
   XLocale? get startLocale => null;
 
-  /// Locale when the locale is not in the list
+  /// Fallback Locale when the locale is not in the list.
   XLocale? get fallbackLocale => null;
-
 
   /// Trigger for using only language code for reading localization files.
   /// @Default value false
@@ -21,7 +24,7 @@ abstract class XLocaleConfig {
   final bool useOnlyLangCode;
 
   /// If a localization key is not found in the locale file, try to use the fallbackLocale file.
-  /// @Default value false
+  /// @Default value true
   /// Example:
   /// ```
   /// useFallbackTranslations: true
@@ -55,20 +58,3 @@ abstract class XLocaleConfig {
   });
 }
 
-class DefaultXLocaleConfig extends XLocaleConfig {
-  DefaultXLocaleConfig() : super(saveLocale: true);
-
-  @override
-  List<XLocale> get supportedLocales => [
-    const XLocale(id: 'en', name: 'English', languageCode: 'en'),
-    const XLocale(id: 'ar', name: 'العربية', languageCode: 'ar'),
-      ];
-
-  @override
-  XLocale? get startLocale => supportedLocales[0];
-
-  @override
-  XLocale? get fallbackLocale => supportedLocales[0];
-
-
-}

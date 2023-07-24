@@ -2,12 +2,11 @@ import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Strings extension method for access to [tr()] and [plural()]
+/// Strings extension method for access to [tr] and [plural()]
 /// Example :
 /// ```dart
-/// 'title'.tr()
+/// 'title'.tr
 /// 'day'.plural(21)
-
 extension PlayxLocalizationStringExtensions on String {
   /// ```
   /// {@macro tr}

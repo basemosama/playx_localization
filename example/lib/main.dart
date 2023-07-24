@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:playx_localization/playx_localization.dart';
+import 'package:playx_localization_example/app_locale_config.dart';
 
 import 'translation/app_trans.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PlayXCore.bootCore();
-  await PlayxLocalization.boot(config: DefaultXLocaleConfig());
+  await PlayxLocalization.boot(config: AppLocaleConfig());
 
   runApp(PlayxLocalizationBuilder(
     builder: (XLocale xLocale) {
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: PlayxLocalization.supportedLocales,
       localizationsDelegates: PlayxLocalization.localizationDelegates,
       locale: PlayxLocalization.currentLocale,
-
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

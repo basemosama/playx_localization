@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/src/easy_localization_controller.dart';
 import 'package:easy_localization/src/localization.dart';
 
+
+///The delegates for this app's Localizations widget.
+///
+/// The delegates collectively define all of the localized resources for this application's Localizations widget
 class PlayxLocalizationDelegate extends LocalizationsDelegate<Localization> {
   final List<Locale>? supportedLocales;
   final EasyLocalizationController? localizationController;

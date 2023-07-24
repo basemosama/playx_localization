@@ -2,7 +2,7 @@ import 'package:playx_localization/playx_localization.dart';
 
 class AppLocaleConfig extends XLocaleConfig{
 
-  AppLocaleConfig() : super(saveLocale: true,);
+  AppLocaleConfig() : super(path: 'assets/translations',);
 
   @override
   List<XLocale> get supportedLocales => [
