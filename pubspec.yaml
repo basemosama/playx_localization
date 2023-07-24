@@ -1,11 +1,13 @@
 name: playx_localization
-description: A new Flutter project.
+description: Easily manage and update app localization with a simple implementation and a lot of utilities.
 version: 0.0.1
-homepage:
+homepage: https://github.com/playx-flutter/playx_localization
+repository: https://github.com/playx-flutter/playx_localization
+issue_tracker: https://github.com/playx-flutter/playx_localization/issues
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: ">=2.19.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:

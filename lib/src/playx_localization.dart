@@ -14,7 +14,7 @@ abstract class PlayxLocalization {
 
   ///Setup the current app locales with your configuration.
   ///And loads app supported translations.
-  /// Must be called before calling any other method.
+  /// Must be called before calling any other method to initialize dependencies.
   static Future<void> boot({
     required XLocaleConfig config,
   }) async {
