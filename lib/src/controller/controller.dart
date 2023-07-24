@@ -1,15 +1,13 @@
-import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:playx_core/playx_core.dart';
 import 'package:playx_localization/src/config/x_locale_config.dart';
-export 'package:easy_localization/easy_localization.dart';
 import 'package:playx_localization/src/delegate/playx_localization_delegate.dart';
+import 'package:playx_localization/src/easy_localization/localization.dart';
+import 'package:playx_localization/src/easy_localization/translations.dart';
 import 'package:playx_localization/src/model/x_locale.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:easy_localization/src/easy_localization_controller.dart';
-import 'package:easy_localization/src/localization.dart';
 
 const _lastKnownIndexKey = 'playx.locale.last_known_index';
 
@@ -17,10 +15,14 @@ const _lastKnownIndexKey = 'playx.locale.last_known_index';
 class XLocaleController extends GetxController {
   XLocaleConfig get config => Get.find<XLocaleConfig>();
 
-  late EasyLocalizationController localizationController;
   late PlayxLocalizationDelegate delegate;
 
   XLocale? _current;
+
+
+  Translations? _translations, _fallbackTranslations;
+  Translations? get translations => _translations;
+  Translations? get fallbackTranslations => _fallbackTranslations;
 
   ///Gets current locale to start the app with
   ///First return any saved locale
@@ -49,9 +51,7 @@ class XLocaleController extends GetxController {
       }
     }
 
-    if (config.fallbackLocale != null) return config.fallbackLocale!;
-
-    return config.supportedLocales.first;
+    return _getFallbackLocale();
   }
 
   // Returns the device locale.
@@ -74,34 +74,92 @@ class XLocaleController extends GetxController {
         lastKnownIndex,
       );
     }
-    log('[playx_localization] booted ✔');
-
-    localizationController = EasyLocalizationController(
-      supportedLocales: supportedLocales,
-      path: config.path,
-      fallbackLocale: config.fallbackLocale?.locale,
-      startLocale: currentXLocale.locale,
-      useOnlyLangCode: config.useOnlyLangCode,
-      useFallbackTranslations: config.useFallbackTranslations,
-      assetLoader: config.assetLoader,
-      saveLocale: false,
-      onLoadError: (FlutterError e) {},
-    );
+    EasyLocalization.logger('initialized current locale ✔');
 
     //Load translations from assets
-    await localizationController.loadTranslations();
+    await loadTranslations();
 
     //load translations into exploitable data, kept in memory
-    Localization.load(localizationController.locale,
-        translations: localizationController.translations,
-        fallbackTranslations: localizationController.fallbackTranslations);
+    Localization.load(currentXLocale.locale,
+        translations: translations,
+        fallbackTranslations: fallbackTranslations);
 
     delegate = PlayxLocalizationDelegate(
-      localizationController: localizationController,
+      localizationController: this,
       supportedLocales: supportedLocales,
     );
-    log('[playx_localization] translation booted ✔');
+    EasyLocalization.logger('translation booted ✔');
   }
+
+
+
+
+  //Get fallback Locale
+   XLocale _getFallbackLocale() {
+     if (config.fallbackLocale != null) return config.fallbackLocale!;
+     return config.supportedLocales.first;
+  }
+
+
+  Future loadTranslations() async {
+    Map<String, dynamic> data;
+    try {
+      data = Map.from(await loadTranslationData(currentXLocale));
+      _translations = Translations(data);
+      if (config.useFallbackTranslations ) {
+        Map<String, dynamic>? baseLangData;
+        if (currentXLocale.countryCode != null && currentXLocale.countryCode!.isNotEmpty) {
+          baseLangData =
+          await loadBaseLangTranslationData(currentXLocale);
+        }
+        data = Map.from(await loadTranslationData(_getFallbackLocale()));
+        if (baseLangData != null) {
+          try {
+            data.addAll(baseLangData);
+          } on UnsupportedError {
+            data = Map.of(data)..addAll(baseLangData);
+          }
+        }
+        _fallbackTranslations = Translations(data);
+      }
+    } on FlutterError catch (e) {
+      // onLoadError(e);
+      EasyLocalization.logger.error(e.message);
+    } catch (e) {
+      EasyLocalization.logger.error(e);
+      // onLoadError(FlutterError(e.toString()));
+    }
+  }
+
+  Future<Map<String, dynamic>?> loadBaseLangTranslationData(
+      XLocale locale) async {
+    try {
+      return await loadTranslationData(locale);
+    } on FlutterError catch (e) {
+      // Disregard asset not found FlutterError when attempting to load base language fallback
+      EasyLocalization.logger.error(e.message);
+    }
+    return null;
+  }
+
+  Future<Map<String, dynamic>> loadTranslationData(XLocale locale) async {
+    late Map<String, dynamic>? data;
+
+    if (config.useOnlyLangCode) {
+      data = await config.assetLoader.load(config.path, Locale(locale.languageCode));
+    } else {
+      data = await config.assetLoader.load(config.path, locale.locale);
+    }
+
+    if (data == null) return {};
+
+    return data;
+  }
+
+
+
+
+
 
   /// update the locale to be one of the supported locales.
   Future<bool> updateTo(
@@ -181,8 +239,9 @@ class XLocaleController extends GetxController {
     if (config.saveLocale) {
       await Prefs.setInt(_lastKnownIndexKey, currentIndex);
     }
-    await localizationController.setLocale(locale.locale);
+    await loadTranslations();
     await Get.updateLocale(locale.locale);
+    EasyLocalization.logger('Updated locale to ${locale.name} with code ${locale.locale.toStringWithSeparator()}');
     update();
     return true;
   }

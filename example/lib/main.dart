@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:playx_localization/playx_localization.dart';
 import 'package:playx_localization_example/app_locale_config.dart';
+import 'package:playx_localization_example/translation/app_trans.dart';
 
-import 'translation/app_trans.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PlayXCore.bootCore();
   await PlayxLocalization.boot(config: AppLocaleConfig());
+
 
   runApp(PlayxLocalizationBuilder(
     builder: (XLocale xLocale) {
@@ -18,7 +19,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +90,7 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton:
-      FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           PlayxLocalization.updateByIndex(
               PlayxLocalization.isCurrentLocaleArabic() ? 0 : 1);
