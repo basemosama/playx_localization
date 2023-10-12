@@ -62,7 +62,7 @@ class XLocaleController extends GetxController {
 
   /// set up the base controller to load locales.
   Future<void> boot() async {
-    final lastKnownIndex = Prefs.getInt(_lastKnownIndexKey);
+    final lastKnownIndex = PlayxPrefs.maybeGetInt(_lastKnownIndexKey);
 
     final foundPlatformLocale = await findSystemLocale();
     deviceLocale = foundPlatformLocale.toLocale();
@@ -237,7 +237,7 @@ class XLocaleController extends GetxController {
   Future<bool> _updateLocale({required XLocale locale}) async {
     _current = locale;
     if (config.saveLocale) {
-      await Prefs.setInt(_lastKnownIndexKey, currentIndex);
+      await PlayxPrefs.setInt(_lastKnownIndexKey, currentIndex);
     }
     await loadTranslations();
     await Get.updateLocale(locale.locale);
@@ -268,7 +268,7 @@ class XLocaleController extends GetxController {
 
   ///Reset saved locales.
   Future<void> deleteSavedLocale() async {
-    return Prefs.remove(_lastKnownIndexKey);
+    return PlayxPrefs.remove(_lastKnownIndexKey);
   }
 
   //delegates to be used in material app.

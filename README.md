@@ -19,7 +19,7 @@ Easily manage and update app localization with a simple implementation and a lot
 in `pubspec.yaml` add these lines to `dependencies`
 
 ```yaml
- playx_localization: ^0.0.1
+ playx_localization: ^0.0.2
 ```   
 Create folder and add translation files like this
 
