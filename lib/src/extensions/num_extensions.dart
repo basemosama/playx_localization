@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:intl/intl.dart';
+import 'package:playx_localization/src/playx_localization.dart';
 
 /// Extension functions to help operations on numbers.
 extension NumExtensions on num {
@@ -24,5 +25,25 @@ extension NumExtensions on num {
   String toFormattedNumber({required String format, String locale = 'en'}) {
     final numberFormat = NumberFormat(format, locale);
     return numberFormat.format(this);
+  }
+
+  /// Extension function to format number to arabic numbers String
+  String toLocalizedArabicNumber() {
+    return NumberFormat('#.##', 'ar_EG').format(this);
+  }
+
+  /// Extension function to format number to english numbers String
+  String toLocalizedEnglishNumber() {
+    return NumberFormat('#.##', 'en_US').format(this);
+  }
+
+  /// Extension function to format number to current arabic or english numbers String
+  String toLocalizedArabicOrEnglishNumber() {
+    return PlayxLocalization.isCurrentLocaleArabic() ? toLocalizedArabicNumber() : toLocalizedEnglishNumber();
+  }
+
+  /// Extension function to format number to localized numbers String
+  String toLocalizedNumber({String locale = 'en'}) {
+    return NumberFormat('#.##', locale).format(this);
   }
 }

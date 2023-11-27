@@ -6,7 +6,7 @@ import 'package:playx_localization_example/translation/app_trans.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PlayXCore.bootCore();
+  await PlayxCore.bootCore();
   await PlayxLocalization.boot(config: AppLocaleConfig());
 
 
@@ -46,8 +46,10 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppTrans.changeLanguageTitle.tr,
-                style: const TextStyle(fontSize: 18),
+                '${AppTrans.changeLanguageTitle.tr} : بلاي',
+                style:  TextStyle(fontSize: 18,
+                    color: ('${AppTrans.changeLanguageTitle.tr} : بلاي').isArabic ? Colors.blueAccent : Colors.black),
+
               ),
               const SizedBox(
                 height: 20,
