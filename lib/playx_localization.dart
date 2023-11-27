@@ -8,6 +8,8 @@ export 'package:playx_localization/src/model/x_locale.dart';
 export 'package:playx_localization/src/config/x_locale_config.dart';
 export 'package:playx_localization/src/extensions/date_extensions.dart';
 export 'package:playx_localization/src/extensions/num_extensions.dart';
+export 'package:playx_localization/src/extensions/localization_string_extensions.dart';
+
 export 'package:playx_core/playx_core.dart';
 export 'package:playx_localization/src/easy_localization/public.dart';
 export 'package:easy_localization/easy_localization.dart'
