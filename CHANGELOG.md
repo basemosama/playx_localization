@@ -1,3 +1,8 @@
+## 0.0.4
+- Update packages.
+- Bump Intl version to 0.18.1.
+
+
 ## 0.0.3
 
 - Update packages.
