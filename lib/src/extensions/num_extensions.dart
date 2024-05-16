@@ -39,7 +39,9 @@ extension NumExtensions on num {
 
   /// Extension function to format number to current arabic or english numbers String
   String toLocalizedArabicOrEnglishNumber() {
-    return PlayxLocalization.isCurrentLocaleArabic() ? toLocalizedArabicNumber() : toLocalizedEnglishNumber();
+    return PlayxLocalization.isCurrentLocaleArabic()
+        ? toLocalizedArabicNumber()
+        : toLocalizedEnglishNumber();
   }
 
   /// Extension function to format number to localized numbers String
