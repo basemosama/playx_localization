@@ -1,6 +1,6 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+
 import 'plural_rules.dart';
 import 'translations.dart';
 
@@ -10,7 +10,7 @@ class Localization {
 
   final RegExp _replaceArgRegex = RegExp('{}');
   final RegExp _linkKeyMatcher =
-  RegExp(r'(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))');
+      RegExp(r'(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))');
   final RegExp _linkKeyPrefixMatcher = RegExp(r'^@(?:\.([a-z]+))?:');
   final RegExp _bracketsMatcher = RegExp('[()]');
   final _modifiers = <String, String Function(String?)>{
@@ -24,13 +24,15 @@ class Localization {
   static Localization? _instance;
   static Localization get instance => _instance ?? (_instance = Localization());
 
+  static Localization? of(BuildContext context) {
+    return Localizations.of<Localization>(context, Localization);
+  }
+
   static bool load(
-      Locale locale, {
-        Translations? translations,
-        Translations? fallbackTranslations,
-      }) {
-
-
+    Locale locale, {
+    Translations? translations,
+    Translations? fallbackTranslations,
+  }) {
     instance._locale = locale;
     instance._translations = translations;
     instance._fallbackTranslations = fallbackTranslations;
@@ -38,11 +40,11 @@ class Localization {
   }
 
   String tr(
-      String key, {
-        List<String>? args,
-        Map<String, String>? namedArgs,
-        String? gender,
-      }) {
+    String key, {
+    List<String>? args,
+    Map<String, String>? namedArgs,
+    String? gender,
+  }) {
     late String res;
 
     if (gender != null) {
@@ -71,7 +73,7 @@ class Localization {
 
       // Remove the leading @:, @.case: and the brackets
       final linkPlaceholder =
-      link.replaceAll(linkPrefix, '').replaceAll(_bracketsMatcher, '');
+          link.replaceAll(linkPrefix, '').replaceAll(_bracketsMatcher, '');
 
       var translated = _resolve(linkPlaceholder);
 
@@ -87,7 +89,7 @@ class Localization {
       }
 
       result =
-      translated.isEmpty ? result : result.replaceAll(link, translated);
+          translated.isEmpty ? result : result.replaceAll(link, translated);
     }
 
     return result;
@@ -104,7 +106,7 @@ class Localization {
   String _replaceNamedArgs(String res, Map<String, String>? args) {
     if (args == null || args.isEmpty) return res;
     args.forEach((String key, String value) =>
-    res = res.replaceAll(RegExp('{$key}'), value));
+        res = res.replaceAll(RegExp('{$key}'), value));
     return res;
   }
 
@@ -114,13 +116,13 @@ class Localization {
   }
 
   String plural(
-      String key,
-      num value, {
-        List<String>? args,
-        Map<String, String>? namedArgs,
-        String? name,
-        NumberFormat? format,
-      }) {
+    String key,
+    num value, {
+    List<String>? args,
+    Map<String, String>? namedArgs,
+    String? name,
+    NumberFormat? format,
+  }) {
     late PluralCase pluralCase;
     late String res;
     var pluralRule = _pluralRule(_locale.languageCode, value);
@@ -187,10 +189,11 @@ class Localization {
 
   String _resolve(String key, {bool logging = true, bool fallback = true}) {
     var resource = _translations?.get(key);
+    EasyLocalization.logger
+        .info('Loading resource for key [$key] with value [$resource]');
 
     if (resource == null) {
       if (logging) {
-
         EasyLocalization.logger.warning('Localization key [$key] not found');
       }
       if (_fallbackTranslations == null || !fallback) {
@@ -209,7 +212,7 @@ class Localization {
     return resource;
   }
 
-  bool exists(String key){
+  bool exists(String key) {
     return _translations?.get(key) != null;
   }
 }

@@ -1,20 +1,18 @@
-
 import '../../playx_localization.dart';
 
 /// Locale config :
 /// used to configure out app locales by providing the app with the supported locales and localization settings.
-/// Create a class that extends the [XLocaleConfig] class to implement your own locales.
-abstract class XLocaleConfig {
-
+/// Create a class that extends the [PlayxLocaleConfig] class to implement your own locales.
+class PlayxLocaleConfig {
   //App supported locales.
-  List<XLocale> get supportedLocales;
+  final List<XLocale> supportedLocales;
 
   /// First Locale that the app starts with if there is not any saved locale.
   ///If equals null then it uses device locale.
-  XLocale? get startLocale => null;
+  final XLocale? startLocale;
 
   /// Fallback Locale when the locale is not in the list.
-  XLocale? get fallbackLocale => null;
+  final XLocale? fallbackLocale;
 
   /// Trigger for using only language code for reading localization files.
   /// @Default value false
@@ -51,12 +49,16 @@ abstract class XLocaleConfig {
   /// @Default value true
   final bool saveLocale;
 
-  XLocaleConfig({
+  PlayxLocaleConfig({
+    required this.supportedLocales,
+    this.startLocale,
+    this.fallbackLocale,
     this.useOnlyLangCode = false,
     this.useFallbackTranslations = true,
     this.path = 'assets/translations',
     this.assetLoader = const RootBundleAssetLoader(),
     this.saveLocale = true,
-  });
+  })  : assert(path.isNotEmpty, 'path can not be empty'),
+        assert(
+            supportedLocales.isNotEmpty, 'supportedLocales can not be empty');
 }
-

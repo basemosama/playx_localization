@@ -1,4 +1,6 @@
-import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
+
 import 'localization.dart';
 
 /// {@template tr}
@@ -30,18 +32,21 @@ import 'localization.dart';
 /// ```
 /// {@endtemplate}
 String tr(
-    String key, {
-      List<String>? args,
-      Map<String, String>? namedArgs,
-      String? gender,
-    }) {
-  return Localization.instance
-      .tr(key, args: args, namedArgs: namedArgs, gender: gender);
+  String key, {
+  BuildContext? context,
+  List<String>? args,
+  Map<String, String>? namedArgs,
+  String? gender,
+}) {
+  return context != null
+      ? Localization.of(context)!
+          .tr(key, args: args, namedArgs: namedArgs, gender: gender)
+      : Localization.instance
+          .tr(key, args: args, namedArgs: namedArgs, gender: gender);
 }
 
 bool trExists(String key) {
-  return Localization.instance
-      .exists(key);
+  return Localization.instance.exists(key);
 }
 
 /// {@template plural}
@@ -94,13 +99,17 @@ bool trExists(String key) {
 /// ```
 /// {@endtemplate}
 String plural(
-    String key,
-    num value, {
-      List<String>? args,
-      Map<String, String>? namedArgs,
-      String? name,
-      NumberFormat? format,
-    }) {
-  return  Localization.instance.plural(key, value,
+  String key,
+  num value, {
+  BuildContext? context,
+  List<String>? args,
+  Map<String, String>? namedArgs,
+  String? name,
+  NumberFormat? format,
+}) {
+  final Localization localization =
+      (context != null ? Localization.of(context) : null) ??
+          Localization.instance;
+  return localization.plural(key, value,
       args: args, namedArgs: namedArgs, name: name, format: format);
 }

@@ -1,6 +1,6 @@
 name: playx_localization
 description: Easily manage and update app localization with a simple implementation and a lot of utilities.
-version: 0.0.5
+version: 0.1.0
 homepage: https://github.com/playx-flutter/playx_localization
 repository: https://github.com/playx-flutter/playx_localization
 issue_tracker: https://github.com/playx-flutter/playx_localization/issues
@@ -8,6 +8,7 @@ topics:
   - playx
   - localization
   - translation
+  - internationalization
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -17,13 +18,13 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  playx_core: ^0.4.1
-  intl: ^0.18.1
-  easy_localization: ^3.0.5
+  playx_core: ^0.4.2
+  intl: ^0.19.0
+  easy_localization: ^3.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
