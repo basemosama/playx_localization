@@ -1,10 +1,10 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:playx_core/playx_core.dart';
-import 'package:playx_localization/src/config/x_locale_config.dart';
 import 'package:playx_localization/src/controller/controller.dart';
 import 'package:playx_localization/src/model/x_locale.dart';
+
+import 'config/playx_locale_config.dart';
 
 /// PlayxLocalization :
 /// Used to update current app locale with id, index, device locale and more.
@@ -12,75 +12,89 @@ import 'package:playx_localization/src/model/x_locale.dart';
 /// With other utilities to be used.
 /// Must be initialized by calling [boot] before calling any method.
 abstract class PlayxLocalization {
-  static XLocaleController get _controller => Get.find<XLocaleController>();
+  static PlayxLocaleController get _controller =>
+      Get.find<PlayxLocaleController>();
 
   ///Setup the current app locales with your configuration.
   ///And loads app supported translations.
   /// Must be called before calling any other method to initialize dependencies.
   static Future<void> boot({
-    required XLocaleConfig config,
+    required PlayxLocaleConfig config,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
     EasyLocalization.logger.name = 'Playx_localization';
-    EasyLocalization.logger(' Localization initialized');
-    final controller = XLocaleController();
-    Get
-      ..put<XLocaleConfig>(config)
-      ..put<XLocaleController>(controller);
+    EasyLocalization.logger('boot Localization');
+    final controller = PlayxLocaleController(config: config);
+    Get.put<PlayxLocaleController>(controller);
     return controller.boot();
   }
-
-  ///Returns current x locale to start the app with.
-  ///First return any saved locale.
-  ///If there isn't any save locale uses start locale from the config.
-  ///If there is no save locale, Then it uses device locale if it's supported in the config supported locales.
-  ///If It's not supported then uses the first locale inf the config supported locales.
-  static XLocale get currentXLocale => _controller.currentXLocale;
-
-  /// Returns the locale of [currentXLocale].
-  static Locale get currentLocale => _controller.currentXLocale.locale;
-
-  /// Returns the locale of device.
-  static Locale? get deviceLocale => _controller.deviceLocale;
-
-  /// Returns current locale index.
-  static int get currentIndex => _controller.currentIndex;
-
-  /// Switch the locale to the next in the supported locales list
-  /// if there is no next locale, it will switch to the first one
-  static Future<void> nextLocale() => _controller.nextLocale();
-
-  ///Update the locale to be one of the supported locales.
-  static Future<bool> updateTo(
-    XLocale locale,
-  ) =>
-      _controller.updateTo(locale);
-
-  /// Update the locale by index
-  static Future<bool> updateByIndex(int index) =>
-      _controller.updateByIndex(index);
-
-  /// update the theme to by id
-  static Future<bool> updateById(
-    String id,
-  ) =>
-      _controller.updateById(id);
-
-  /// update the locale by language code and country code if available.
-  static Future<bool> updateByLanguageCode(
-          {required String languageCode, String? countryCode}) =>
-      _controller.updateByLanguageCode(
-          languageCode: languageCode, countryCode: countryCode);
-
-  /// Updates the locale to current device locale.
-  static Future<bool> updateToDeviceLocale() =>
-      _controller.updateToDeviceLocale();
 
   ///returns the current supported xLocales.
   static List<XLocale> get supportedXLocales => _controller.supportedXLocales;
 
-  ///returns the current supported Locales.
+  /// Returns the current supported locales.
   static List<Locale> get supportedLocales => _controller.supportedLocales;
+
+  /// Returns current locale index.
+  static int get currentIndex => _controller.currentIndex;
+
+  ///Returns current [XLocale] that is used in the app.
+  static XLocale get currentXLocale {
+    final value = _controller.value;
+    if (value == null) {
+      throw Exception(
+          'Localization has not been initialized. You must call boot method before accessing any property.');
+    }
+    return value;
+  }
+
+  /// Returns the current [Locale] that is used in the app.
+  static Locale get currentLocale => _controller.value!.locale;
+
+  /// Returns the locale of device.
+  static Locale? get deviceLocale => _controller.deviceLocale;
+
+  /// Returns the current fallback Locale that is used in the app.
+  /// If [useFallbackTranslations] in config is false, it will return null.
+  /// Else it will return the fallback locale based on config.
+  /// If no fallback locale is found, it will use english locale if found.
+  /// If no english locale is found, it will return the first locale in the supported locales list.
+  /// If no supported locales are found, it will return null.
+  static XLocale? get fallbackLocale =>
+      _controller.config.useFallbackTranslations
+          ? _controller.getFallbackLocale()
+          : null;
+
+  /// Switch the locale to the next in the supported locales list
+  /// if there is no next locale, it will switch to the first one
+  static Future<void> nextLocale({bool forceAppUpdate = false}) =>
+      _controller.nextLocale(forceAppUpdate: forceAppUpdate);
+
+  ///Update the locale to be one of the supported locales.
+  static Future<bool> updateTo(XLocale locale, {bool forceAppUpdate = false}) =>
+      _controller.updateTo(locale, forceAppUpdate: forceAppUpdate);
+
+  /// Update the locale by index
+  static Future<bool> updateByIndex(int index, {bool forceAppUpdate = false}) =>
+      _controller.updateByIndex(index, forceAppUpdate: forceAppUpdate);
+
+  /// update the theme to by id
+  static Future<bool> updateById(String id, {bool forceAppUpdate = false}) =>
+      _controller.updateById(id, forceAppUpdate: forceAppUpdate);
+
+  /// update the locale by language code and country code if available.
+  static Future<bool> updateByLanguageCode(
+          {required String languageCode,
+          String? countryCode,
+          bool forceAppUpdate = false}) =>
+      _controller.updateByLanguageCode(
+          languageCode: languageCode,
+          countryCode: countryCode,
+          forceAppUpdate: forceAppUpdate);
+
+  /// Updates the locale to current device locale.
+  static Future<bool> updateToDeviceLocale({bool forceAppUpdate = false}) =>
+      _controller.updateToDeviceLocale(forceAppUpdate: forceAppUpdate);
 
   ///Check if current locale is arabic.
   static bool isCurrentLocaleArabic() => _controller.isCurrentLocaleArabic();
@@ -88,9 +102,17 @@ abstract class PlayxLocalization {
   ///Check if current locale is english.
   static bool isCurrentLocaleEnglish() => _controller.isCurrentLocaleEnglish();
 
+  ///Check if current locale is rtl.
+  static bool isCurrentLocaleRtl() => _controller.isCurrentLocaleRtl();
+
+  /// Convert current [locale] to String with custom [separator] representing language code and country code.
+  String currentLocaleToString({String separator = '_'}) =>
+      _controller.currentLocaleToString(separator: separator);
+
   ///delete saved locale from device storage.
   static Future<void> deleteSavedLocale() => _controller.deleteSavedLocale();
 
   //delegates to be used in material app.
-  static List<LocalizationsDelegate> get localizationDelegates => _controller.delegates;
+  static List<LocalizationsDelegate> get localizationDelegates =>
+      _controller.delegates;
 }

@@ -1,3 +1,41 @@
+# Changelog
+
+## Version 0.1.0
+> **Note**: This release contains breaking changes.
+
+### New Features
+
+#### General Updates
+- **Package Updates**: All packages have been updated.
+- **`intl` Package**: Upgraded to version 0.19.0.
+
+#### PlayxLocalizationBuilder
+- **Improved Locale Management**: Now uses an `InheritedWidget` to provide locale to child widgets, enhancing locale management and widget rebuilds.
+- **Simplified Localization Access**:
+    - Retrieve localized text using:
+        - `'text'.tr(context: context)`
+        - `context.tr()`
+        - `Text('text').tr(context: context)`
+    - New `BuildContext` extensions: `context.tr()` and `context.plural` for easy access to localized text.
+
+  Providing context to the `tr` function ensures widgets are rebuilt correctly when the locale changes. 
+- For classes without context, you can still use the `tr` function without context, though note that widgets will not rebuild on locale changes when used this way, But there is an option to force app update on locale change.
+
+#### PlayxLocalization
+- Added a getter to retrieve the app's fallback locale.
+-  Added a function to get the current locale as a string with a custom separator.
+- Added a function to determine if the current locale is right-to-left (RTL).
+
+#### PlayxLocaleController
+-  Switched from `GetxController` to `ValueNotifier`, reducing reliance on the `GetX` package.
+-  Updated methods (`updateTo`, `updateByIndex`, `updateById`, `next`, `updateByLanguageCode`, `updateToDeviceLocale`) now include a `forceAppUpdate` parameter to allow a full app rebuild when changing the locale.
+
+### Breaking Changes
+-  `XLocaleConfig` has been renamed to `PlayxLocaleConfig` to align with the package name.
+-`PlayxLocaleConfig` is no longer abstract and can be instantiated directly.
+-  `PlayxLocaleConfig` now requires default and supported locales to be provided at instantiation.
+-  The `tr` extension on `String` has been updated to a function that accepts context and additional parameters.
+
 ## 0.0.5
 - Update packages.
 

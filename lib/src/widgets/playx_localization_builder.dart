@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:playx_localization/playx_localization.dart';
 import 'package:playx_localization/src/controller/controller.dart';
+import 'package:playx_localization/src/widgets/playx_inherited_localization.dart';
 
-///PlayxLocalizationBuilder:
-///It allows us to create a widget with current locale.
-///It should rebuild the widget automatically after changing the locale.
+/// PlayxLocalizationBuilder:
+/// It allows us to create a widget with current locale.
+/// It should rebuild the widget automatically after changing the locale.
 class PlayxLocalizationBuilder extends StatelessWidget {
-  /// Place for your main page widget.
-  final Widget Function(XLocale xLocale) builder;
+  /// The builder function that will be called when the locale changes.
+  final Widget Function(
+    BuildContext context,
+    XLocale xLocale,
+  ) builder;
 
   const PlayxLocalizationBuilder({super.key, required this.builder});
 
+  PlayxLocaleController get controller => Get.find<PlayxLocaleController>();
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<XLocaleController>(builder: (c) {
-      return builder(c.currentXLocale);
-    });
+    return ValueListenableBuilder(
+      valueListenable: controller,
+      builder: (context, XLocale? xLocale, child) {
+        if (xLocale == null) {
+          throw Exception(
+              'Localization has not been initialized. You must call boot method before accessing any property.');
+        }
+        return PlayxInheritedLocalization(
+          locale: xLocale,
+          child: builder(context, xLocale),
+        );
+      },
+    );
   }
 }

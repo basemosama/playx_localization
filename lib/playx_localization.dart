@@ -12,7 +12,7 @@ export 'package:easy_localization/easy_localization.dart'
         plural;
 export 'package:intl/date_symbol_data_local.dart';
 export 'package:playx_core/playx_core.dart';
-export 'package:playx_localization/src/config/x_locale_config.dart';
+export 'package:playx_localization/src/config/playx_locale_config.dart';
 export 'package:playx_localization/src/easy_localization/public.dart';
 export 'package:playx_localization/src/extensions/date_extensions.dart';
 export 'package:playx_localization/src/extensions/localization_string_extensions.dart';
