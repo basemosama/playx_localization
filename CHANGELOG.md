@@ -1,6 +1,9 @@
 # Changelog
 
-## Version 0.1.0
+## 0.1.1
+- enhance log messages.
+
+## 0.1.0
 > **Note**: This release contains breaking changes.
 
 ### New Features
