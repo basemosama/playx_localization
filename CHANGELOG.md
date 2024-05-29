@@ -1,4 +1,6 @@
 # Changelog
+## 0.1.2
+- Fix bug causing locale to not be saved correctly.
 
 ## 0.1.1
 - enhance log messages.

@@ -53,16 +53,12 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
     EasyLocalization.logger(
         'Device Locale ${deviceLocale?.toStringWithSeparator()}');
 
-    XLocale? lastSavedLocale;
-    if (lastKnownIndex != null &&
-        lastKnownIndex >= 0 &&
-        lastKnownIndex < config.supportedLocales.length) {
-      lastSavedLocale = config.supportedLocales.atOrNull(
-        lastKnownIndex,
-      );
-      EasyLocalization.logger(
-          'Last Saved Locale ${lastSavedLocale?.locale.toStringWithSeparator()}');
-    }
+    XLocale? lastSavedLocale = config.supportedLocales.atOrNull(
+      lastKnownIndex ?? -1,
+    );
+
+    EasyLocalization.logger(
+        'Last Saved Locale ${lastSavedLocale?.locale.toStringWithSeparator()}');
 
     final locale = _getStartLocale(savedLocale: lastSavedLocale);
 
@@ -234,11 +230,17 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
     bool forceAppUpdate = false,
   }) async {
     try {
+      final index = supportedXLocales.indexOf(locale);
+      if (index < 0) {
+        EasyLocalization.logger.error('Locale not found in supported Locales');
+        return false;
+      }
+
       await loadTranslations(
         locale,
       );
       if (config.saveLocale) {
-        await PlayxPrefs.setInt(_lastKnownIndexKey, currentIndex);
+        await PlayxPrefs.setInt(_lastKnownIndexKey, index);
       }
 
       Get.locale = locale.locale;
