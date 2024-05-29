@@ -43,7 +43,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EasyLocalization.logger('Rebuild Locale MyHomePage with');
     return Scaffold(
         appBar: AppBar(
           title: Text(
