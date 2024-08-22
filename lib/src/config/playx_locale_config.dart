@@ -49,6 +49,12 @@ class PlayxLocaleConfig {
   /// @Default value true
   final bool saveLocale;
 
+  /// Log missing keys in the console.
+  final bool logMissingKeys;
+
+  /// Migrate preferences to async storage.
+  final bool migratePrefsToAsync;
+
   PlayxLocaleConfig({
     required this.supportedLocales,
     this.startLocale,
@@ -58,6 +64,8 @@ class PlayxLocaleConfig {
     this.path = 'assets/translations',
     this.assetLoader = const RootBundleAssetLoader(),
     this.saveLocale = true,
+    this.logMissingKeys = true,
+    this.migratePrefsToAsync = false,
   })  : assert(path.isNotEmpty, 'path can not be empty'),
         assert(
             supportedLocales.isNotEmpty, 'supportedLocales can not be empty');

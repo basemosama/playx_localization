@@ -69,37 +69,41 @@ class MyHomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Get.dialog(Center(
-                          child: Card(
-                        margin: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              AppTrans.changeLanguageTitle.tr(context: context),
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            ...PlayxLocalization.supportedXLocales
-                                .map((e) => ListTile(
-                                      onTap: () {
-                                        PlayxLocalization.updateById(e.id,
-                                            forceAppUpdate: false);
-                                        Get.back();
-                                      },
-                                      title: Text(e.name),
-                                      trailing:
-                                          PlayxLocalization.currentXLocale.id ==
-                                                  e.id
-                                              ? const Icon(
-                                                  Icons.done,
-                                                  color: Colors.lightBlue,
-                                                )
-                                              : const SizedBox.shrink(),
-                                    ))
-                                .toList(),
-                          ],
-                        ),
-                      )));
+                      showDialog(
+                          context: context,
+                          builder: (ctx) => Center(
+                                  child: Card(
+                                margin: const EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      AppTrans.changeLanguageTitle
+                                          .tr(context: context),
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                    ...PlayxLocalization.supportedXLocales
+                                        .map((e) => ListTile(
+                                              onTap: () {
+                                                PlayxLocalization.updateById(
+                                                    e.id,
+                                                    forceAppUpdate: false);
+                                                Navigator.pop(ctx);
+                                              },
+                                              title: Text(e.name),
+                                              trailing: PlayxLocalization
+                                                          .currentXLocale.id ==
+                                                      e.id
+                                                  ? const Icon(
+                                                      Icons.done,
+                                                      color: Colors.lightBlue,
+                                                    )
+                                                  : const SizedBox.shrink(),
+                                            ))
+                                        .toList(),
+                                  ],
+                                ),
+                              )));
                     },
                     child: Text(AppTrans.chooseLanguage.tr(context: context)))
               ],

@@ -20,6 +20,19 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
     required this.config,
   }) : super(null);
 
+  /// The current PlayxLocaleController instance.
+  static PlayxLocaleController? _localizationControllerInstance;
+
+  /// The current PlayxLocaleController instance getter .
+  /// Throws exception if not initialized.
+  static PlayxLocaleController get controller {
+    if (_localizationControllerInstance == null) {
+      throw Exception(
+          'PlayxLocalization has not been initialized. Please ensure you have called boot method before accessing any property.');
+    }
+    return _localizationControllerInstance!;
+  }
+
   late PlayxLocalizationDelegate delegate;
 
   Translations? _translations, _fallbackTranslations;
@@ -46,7 +59,9 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
   Future<void> boot() async {
     EasyLocalization.logger('Booting Localization');
 
-    final lastKnownIndex = PlayxPrefs.maybeGetInt(_lastKnownIndexKey);
+    _localizationControllerInstance = this;
+    final lastKnownIndex = await getLastSavedIndexFromPrefs(
+        migratePrefsToAsync: config.migratePrefsToAsync);
 
     final foundPlatformLocale = await findSystemLocale();
     deviceLocale = foundPlatformLocale.toLocale();
@@ -77,6 +92,32 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
 
     EasyLocalization.logger(
         'translation booted with ${locale.locale.toStringWithSeparator()}✔');
+  }
+
+  /// Retrieves the last saved theme index from preferences.
+  ///
+  /// If [migratePrefsToAsync] is true, preferences are migrated to asynchronous storage.
+  Future<int?> getLastSavedIndexFromPrefs({
+    bool migratePrefsToAsync = false,
+  }) async {
+    await PlayxAsyncPrefs.create();
+    int? lastSavedIndex = await PlayxAsyncPrefs.maybeGetInt(
+      _lastKnownIndexKey,
+    );
+    if (migratePrefsToAsync && lastSavedIndex == null) {
+      await PlayxPrefs.create();
+      final lastKnownIndexInPrefs = PlayxPrefs.maybeGetInt(
+        _lastKnownIndexKey,
+      );
+      EasyLocalization.logger(
+          'Migrating preferences to SharedPreferenceAsync found index $lastKnownIndexInPrefs');
+
+      if (lastKnownIndexInPrefs != null) {
+        await PlayxAsyncPrefs.setInt(_lastKnownIndexKey, lastKnownIndexInPrefs);
+        lastSavedIndex = lastKnownIndexInPrefs;
+      }
+    }
+    return lastSavedIndex;
   }
 
   ///Gets current locale to start the app with
@@ -240,10 +281,8 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
         locale,
       );
       if (config.saveLocale) {
-        await PlayxPrefs.setInt(_lastKnownIndexKey, index);
+        await PlayxAsyncPrefs.setInt(_lastKnownIndexKey, index);
       }
-
-      Get.locale = locale.locale;
 
       value = locale;
 
@@ -312,7 +351,7 @@ class PlayxLocaleController extends ValueNotifier<XLocale?> {
 
   ///Reset saved locales.
   Future<void> deleteSavedLocale() async {
-    return PlayxPrefs.remove(_lastKnownIndexKey);
+    return PlayxAsyncPrefs.remove(_lastKnownIndexKey);
   }
 
   //delegates to be used in material app.
