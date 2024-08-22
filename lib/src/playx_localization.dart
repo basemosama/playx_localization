@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:playx_core/playx_core.dart';
 import 'package:playx_localization/src/controller/controller.dart';
 import 'package:playx_localization/src/model/x_locale.dart';
 
@@ -12,8 +11,10 @@ import 'config/playx_locale_config.dart';
 /// With other utilities to be used.
 /// Must be initialized by calling [boot] before calling any method.
 abstract class PlayxLocalization {
+  /// The current PlayxLocaleController instance getter .
+  /// Throws exception if not initialized.
   static PlayxLocaleController get _controller =>
-      Get.find<PlayxLocaleController>();
+      PlayxLocaleController.controller;
 
   ///Setup the current app locales with your configuration.
   ///And loads app supported translations.
@@ -25,7 +26,6 @@ abstract class PlayxLocalization {
     EasyLocalization.logger.name = 'Playx_localization';
     EasyLocalization.logger('boot Localization');
     final controller = PlayxLocaleController(config: config);
-    Get.put<PlayxLocaleController>(controller);
     return controller.boot();
   }
 

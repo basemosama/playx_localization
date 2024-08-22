@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:playx_localization/src/controller/controller.dart';
 
 import 'plural_rules.dart';
 import 'translations.dart';
@@ -50,7 +51,13 @@ class Localization {
     if (gender != null) {
       res = _gender(key, gender: gender);
     } else {
-      res = _resolve(key);
+      bool logMissingKeys = true;
+      try {
+        logMissingKeys = PlayxLocaleController.controller.config.logMissingKeys;
+      } catch (e) {
+        logMissingKeys = true;
+      }
+      res = _resolve(key, logging: logMissingKeys);
     }
 
     res = _replaceLinks(res);

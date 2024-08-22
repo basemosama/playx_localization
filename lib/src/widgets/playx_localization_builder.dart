@@ -15,7 +15,7 @@ class PlayxLocalizationBuilder extends StatelessWidget {
 
   const PlayxLocalizationBuilder({super.key, required this.builder});
 
-  PlayxLocaleController get controller => Get.find<PlayxLocaleController>();
+  PlayxLocaleController get controller => PlayxLocaleController.controller;
 
   @override
   Widget build(BuildContext context) {

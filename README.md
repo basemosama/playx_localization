@@ -67,9 +67,7 @@ Initialize the Playx core package with your desired locale configuration:
 
 ```dart    
 void main() async {    
-	WidgetsFlutterBinding.ensureInitialized();    
-  
-	await PlayXCore.bootCore();    
+	WidgetsFlutterBinding.ensureInitialized();
   
   // Define your supported locales and other configurations
 	const locales = [  

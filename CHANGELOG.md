@@ -1,4 +1,13 @@
 # Changelog
+
+## 0.2.0
+> **Note**: This release contains breaking changes.
+
+- Migrated shared preferences to `SharedPreferencesAsync` for improved performance and async handling.  If you're upgrading, set `migratePrefsToAsyncPrefs` to `true` in `PlayxLocaleConfig` to ensure a smooth transition.
+- Add new `logMissingKeys` parameter to `PlayxLocaleConfig` to enable or disable logging missing keys in the console.
+- Removed dependencies on GetX package.
+- No need to call `await PlayXCore.bootCore();` before using the localization package anymore. The package will automatically initialize the core when needed.
+
 ## 0.1.2
 - Fix bug causing locale to not be saved correctly.
 
