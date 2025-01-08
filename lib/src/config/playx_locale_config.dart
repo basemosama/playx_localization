@@ -64,7 +64,7 @@ class PlayxLocaleConfig {
     this.path = 'assets/translations',
     this.assetLoader = const RootBundleAssetLoader(),
     this.saveLocale = true,
-    this.logMissingKeys = true,
+    this.logMissingKeys = false,
     this.migratePrefsToAsync = false,
   })  : assert(path.isNotEmpty, 'path can not be empty'),
         assert(

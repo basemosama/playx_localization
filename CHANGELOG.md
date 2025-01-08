@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+- Update packages.
+- Add new parameter `fontFamily` to `XLocale` to set the font family for the localized text for each locale.
+- `logMissingKeys` parameter is now set to `false` by default.
+- Add new extension `toFormattedTime` on `DateTime` to format time to localized time string.
+
+
 ## 0.2.0
 > **Note**: This release contains breaking changes.
 
