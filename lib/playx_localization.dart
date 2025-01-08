@@ -1,4 +1,4 @@
-library playx_localization;
+library;
 
 export 'package:easy_localization/easy_localization.dart'
     hide
