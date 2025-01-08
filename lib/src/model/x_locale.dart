@@ -9,16 +9,18 @@ class XLocale extends Equatable {
   final String name;
   final String languageCode;
   final String? countryCode;
+  final String? fontFamily;
 
   const XLocale({
     required this.id,
     required this.name,
     required this.languageCode,
     this.countryCode,
+    this.fontFamily,
   });
 
   Locale get locale => Locale(languageCode, countryCode);
 
   @override
-  List<Object?> get props => [id, name, languageCode, countryCode];
+  List<Object?> get props => [id, name, languageCode, countryCode, fontFamily];
 }
