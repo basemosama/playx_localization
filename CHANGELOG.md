@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.2
+- Update packages.
+
 ## 0.2.1
 - Update packages.
 - Add new parameter `fontFamily` to `XLocale` to set the font family for the localized text for each locale.

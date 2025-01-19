@@ -1,11 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import 'localization.dart';
 
 /// {@template tr}
 /// Main function for translate your language keys
 /// [key] Localization key
+/// [BuildContext] The location in the tree where this widget builds
 /// [args] List of localized strings. Replaces {} left to right
 /// [namedArgs] Map of localized strings. Replaces the name keys {key_name} according to its name
 /// [gender] Gender switcher. Changes the localized string based on gender string
@@ -45,14 +46,17 @@ String tr(
           .tr(key, args: args, namedArgs: namedArgs, gender: gender);
 }
 
-bool trExists(String key) {
-  return Localization.instance.exists(key);
+bool trExists(String key, {BuildContext? context}) {
+  return context != null
+      ? Localization.of(context)!.exists(key)
+      : Localization.instance.exists(key);
 }
 
 /// {@template plural}
 /// function translate with pluralization
 /// [key] Localization key
 /// [value] Number value for pluralization
+/// [BuildContext] The location in the tree where this widget builds
 /// [args] List of localized strings. Replaces {} left to right
 /// [namedArgs] Map of localized strings. Replaces the name keys {key_name} according to its name
 /// [name] Name of number value. Replaces {$name} to value
